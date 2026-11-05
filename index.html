@@ -148,6 +148,17 @@
   #page-home .buttons a:nth-child(3) { background:#94d6d9; }
   #page-home .buttons a:hover { background:#fff; border-color:rgba(0,0,0,.4); color:#000; }
 
+  /* Home: fit the screen on iPad / tablets only (touch screen, tablet-sized) */
+  @media (min-width: 901px) and (max-width: 1400px) and (min-height: 560px) and (pointer: coarse) {
+    #page-home main { padding:clamp(24px,6vh,64px) 40px; gap:clamp(40px,6vw,80px); }
+    #page-home main img { width:clamp(200px,38vh,320px); height:clamp(200px,38vh,320px); width:clamp(200px,38svh,320px); height:clamp(200px,38svh,320px); }
+    #page-home .intro h2 { font-size:clamp(44px,9vh,72px); font-size:clamp(44px,9svh,72px); margin-bottom:clamp(12px,2.5vh,24px); }
+    #page-home .intro p { font-size:clamp(16px,2.3vh,18px); line-height:1.6; }
+    #page-home .buttons { margin-top:clamp(18px,3.5vh,32px); }
+    #page-home .buttons a { width:clamp(84px,15vh,120px); height:clamp(84px,15vh,120px); width:clamp(84px,15svh,120px); height:clamp(84px,15svh,120px); font-size:clamp(16px,2.6vh,19px); }
+    footer { padding:28px 48px; }
+  }
+
   /* Resume page */
   #page-resume main { max-width:1200px; margin:0 auto; padding:60px 60px 120px; }
   #page-resume section { padding:44px 0; border-top:1px solid #a8a8a8; }
