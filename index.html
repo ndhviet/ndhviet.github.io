@@ -58,7 +58,7 @@
     --active:#8c6620; --link-hover:#166aea;
     --btn1:#eac88b; --btn2:#ef998d; --btn3:#94d6d9; --btn-text:#000;
     --home-btn-border:rgba(0,0,0,.15); --home-btn-border-hover:rgba(0,0,0,.4);
-    --pill-border:#8a8a8a; --pdf-bg:#ffe9b0; --more-bg:#cefae8; --more-bg-hover:#b7f0da;
+    --pill-border:#8a8a8a; --pdf-bg:#ffe9b0; --pdf-border:#8a8a8a; --more-bg:#cefae8; --more-bg-hover:#b7f0da;
     --input-bg:#f2f2f2; --input-border:#999;
     --submit-bg:#eea302; --submit-bg-hover:#d99400;
     --loading-bg:#fbfdfc; --bar-bg:#e7e7e7;
@@ -73,7 +73,7 @@
     --active:#4fd8b0; --link-hover:#4fd8b0;
     --btn1:#e8b45c; --btn2:#e2836f; --btn3:#4fd8b0; --btn-text:#06110d;
     --home-btn-border:rgba(255,255,255,.12); --home-btn-border-hover:rgba(255,255,255,.5);
-    --pill-border:#2f8f74; --pdf-bg:#2e2a18; --more-bg:#12362c; --more-bg-hover:#17463a;
+    --pill-border:#2f8f74; --pdf-bg:#8a5f10; --pdf-border:#e8b45c; --more-bg:#12362c; --more-bg-hover:#17463a;
     --input-bg:#101c19; --input-border:#2c4a40;
     --submit-bg:#4fd8b0; --submit-bg-hover:#63e6be;
     --loading-bg:#0a1210; --bar-bg:#1e332c;
@@ -89,7 +89,7 @@
     --active:#4fd8b0; --link-hover:#4fd8b0;
     --btn1:#e8b45c; --btn2:#e2836f; --btn3:#4fd8b0; --btn-text:#06110d;
     --home-btn-border:rgba(255,255,255,.12); --home-btn-border-hover:rgba(255,255,255,.5);
-    --pill-border:#2f8f74; --pdf-bg:#2e2a18; --more-bg:#12362c; --more-bg-hover:#17463a;
+    --pill-border:#2f8f74; --pdf-bg:#8a5f10; --pdf-border:#e8b45c; --more-bg:#12362c; --more-bg-hover:#17463a;
     --input-bg:#101c19; --input-border:#2c4a40;
     --submit-bg:#4fd8b0; --submit-bg-hover:#63e6be;
     --loading-bg:#0a1210; --bar-bg:#1e332c;
@@ -194,6 +194,14 @@
     header { padding-left:32px; padding-right:32px; }
     .header-right { gap:22px; }
     .header-controls { gap:10px; }
+    header { gap:20px; }
+    nav a { font-size:18px; }
+    nav li + li::before { margin:0 10px; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    header { flex-wrap:wrap; gap:14px; }
+    .header-right { width:100%; justify-content:space-between; }
+    nav a { white-space:nowrap; }
   }
 
   .page { display:none; }
@@ -248,7 +256,7 @@
   .project-info p { font-size:16px; line-height:1.6; color:var(--text-soft); margin:0 0 20px; }
   .project-buttons { display:flex; gap:14px; flex-wrap:wrap; }
   .project-buttons a { display:inline-flex; align-items:center; gap:6px; padding:10px 20px; border-radius:999px; text-decoration:none; font-weight:600; font-size:15px; color:var(--text); border:2px solid var(--pill-border); }
-  .project-buttons a.pdf-btn { background:var(--pdf-bg); }
+  .project-buttons a.pdf-btn { background:var(--pdf-bg); border-color:var(--pdf-border); }
   .project-buttons a.more-btn { background:var(--more-bg); }
   .project-buttons a:hover { filter:brightness(0.96); }
 
@@ -307,7 +315,13 @@
   footer a:hover { text-decoration:underline; }
   .icon-row { display:flex; gap:12px; align-items:center; }
   .icon-row img { width:26px; height:26px; }
-  .copyright { text-align:right; font-size:15px; color:var(--muted); }
+  .copyright { display:flex; align-items:center; justify-content:flex-end; gap:10px; text-align:right; font-size:15px; color:var(--muted); }
+  @media (min-width: 901px) { .copyright { margin-right:64px; } }
+  .copy-badge { position:relative; padding:0; border:none; background:transparent; color:var(--muted); font-family:inherit; font-size:20px; line-height:1; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:color .15s ease, border-color .15s ease; }
+  .copy-badge:hover, .copy-badge.show { color:var(--text); }
+  .copy-tip { position:absolute; bottom:calc(100% + 10px); right:0; white-space:nowrap; background:var(--card); color:var(--text); border:1px solid var(--border-soft); border-radius:4px; padding:6px 10px; font-size:13px; line-height:1.3; box-shadow:0 4px 10px rgba(0,0,0,.15); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s ease; z-index:20; }
+  .copy-badge.show .copy-tip { opacity:1; visibility:visible; }
+  @media (hover:hover) { .copy-badge:hover .copy-tip { opacity:1; visibility:visible; } }
 
   /* ===================== RESPONSIVE / MOBILE ===================== */
   @media (max-width: 900px) {
@@ -363,19 +377,6 @@
     .copyright { text-align:left; justify-content:flex-start; }
   }
 
-  /* ===== iPad / small screens: smaller language, theme and nav controls ===== */
-  @media (min-width: 481px) and (max-width: 1200px) {
-    .header-controls { gap:8px; }
-    .seg-btn, .theme-btn { font-size:12px; padding:5px 9px; letter-spacing:.06em; }
-    .theme-btn { min-width:62px; }
-    nav a { font-size:16px; }
-    nav li + li::before { margin:0 9px; font-size:16px; }
-    .header-right { gap:16px; }
-  }
-
-  /* Theme button = compact icon (sun / moon) */
-  .theme-btn { min-width:0; padding:0 11px; font-size:18px; line-height:1; letter-spacing:0; display:inline-flex; align-items:center; justify-content:center; }
-
   @media (max-width: 480px) {
     header .brand span { font-size:17px; }
     #page-home .intro h2 { font-size:32px; }
@@ -430,7 +431,7 @@
         <button type="button" class="seg-btn" data-lang-btn="en" data-full="English" aria-pressed="false" onclick="setLang('en')">EN</button>
         <button type="button" class="seg-btn" data-lang-btn="fr" data-full="Français" aria-pressed="true" onclick="setLang('fr')">FR</button>
       </div>
-      <button type="button" class="theme-btn" id="themeBtn" data-full="" onclick="toggleTheme()">🌙</button>
+      <button type="button" class="theme-btn" id="themeBtn" data-full="" onclick="toggleTheme()">Light</button>
     </div>
     <nav>
       <ul>
@@ -519,7 +520,7 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
       <ul class="plain">
         <li data-fr="Modèle hiérarchique bayésien pour l'écologie" data-en="Bayesian hierarchical model for ecology" data-vi="Mô hình phân cấp Bayes cho sinh thái học">Modèle hiérarchique bayésien pour l'écologie</li>
         <li data-fr="Le Chat Musicien : génération de musique par Transformer" data-en="Le Chat Musicien: music generation with a Transformer" data-vi="Le Chat Musicien: tạo nhạc bằng mô hình Transformer">Le Chat Musicien : génération de musique par Transformer</li>
-        <li data-fr="Analyse numérique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numerique avec C++</li>
+        <li data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numerique avec C++</li>
         <li data-fr="Project DPE : Analyse factorielle" data-en="DPE Project: Factor Analysis" data-vi="Dự án DPE: Phân tích nhân tố">Project DPE : Analyse factorielle</li>
         <li data-fr="COVID-19 Analyse de données en Python." data-en="COVID-19 Data Analysis with Python" data-vi="Phân tích dữ liệu COVID-19 bằng Python.">COVID-19 Analyse de données en Python.</li>
         <li data-fr="NLP: Analyse des sentiments sur Twitter." data-en="NLP: Twitter Sentiment Analysis" data-vi="NLP: Phân tích cảm xúc trên Twitter.">NLP: Analyse des sentiments sur Twitter.</li>
@@ -537,14 +538,14 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
         <div class="skills-grid">
           <div class="skill-item"><img src="assets/excel.png" alt="Excel"><span>Excel</span></div>
           <div class="skill-item"><img src="assets/googlesheets.png" alt="Google Sheets"><span>Google Sheets</span></div>
-          <div class="skill-item"><img src="assets/sql.png" alt="SQL"><span>SQL</span></div>
+          <div class="skill-item"><img src="assets/sql.png" alt="SQL"><span>SQl</span></div>
           <div class="skill-item"><img src="assets/r.png" alt="R"><span>R</span></div>
           <div class="skill-item"><img src="assets/python.png" alt="Python"><span>Python</span></div>
           <div class="skill-item"><img src="assets/cpp.png" alt="C++"><span>C++</span></div>
           <div class="skill-item"><img src="https://cdn.simpleicons.org/numpy/013243" alt="Numpy"><span>Numpy</span></div>
-          <div class="skill-item"><img src="assets/matplotlib.png" alt="Matplotlib"><span>Matplotlib</span></div>
+          <div class="skill-item"><img src="assets/matplotlib.png" alt="Matplotlib"><span>Mathplotlip</span></div>
           <div class="skill-item"><img src="assets/pandas.png" alt="Pandas"><span>Pandas</span></div>
-          <div class="skill-item"><img src="assets/tableau.png" alt="Tableau"><span>Tableau</span></div>
+          <div class="skill-item"><img src="assets/tableau.png" alt="Tableau"><span>tableau</span></div>
         </div>
       </div>
 
@@ -768,7 +769,7 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
     <form class="contact-form reveal" onsubmit="return sendContact(event)">
       <div class="contact-row">
         <div class="contact-field">
-          <label data-fr="Prénom *" data-en="First name *" data-vi="Tên *">Prénom *</label>
+          <label data-fr="Prenom *" data-en="First name *" data-vi="Tên *">Prenom *</label>
           <input type="text" id="contact-firstname" required>
         </div>
         <div class="contact-field">
@@ -811,7 +812,10 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
       <a href="https://www.linkedin.com/in/hoang-viet1810/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
     </div>
   </div>
-  <div class="copyright">Created by Nguyen Duc Hoang Viet</div>
+  <div class="copyright">
+      <button type="button" class="copy-badge" aria-label="Copyright" onclick="var b=this;b.classList.add('show');clearTimeout(b._t);b._t=setTimeout(function(){b.classList.remove('show')},2500)">©<span class="copy-tip" data-fr="© 2026 Nguyen Duc Hoang Viet. Tous droits réservés" data-en="© 2026 Nguyen Duc Hoang Viet. All rights reserved" data-vi="© 2026 Nguyen Duc Hoang Viet. Bảo lưu mọi quyền">© 2026 Nguyen Duc Hoang Viet. Tous droits réservés</span></button>
+      <span>Created by Nguyen Duc Hoang Viet</span>
+    </div>
 </footer>
 
 <button id="backToTop" onclick="scrollToTop()" aria-label="Back to top">↑</button>
@@ -885,7 +889,7 @@ function updateThemeButtons() {
   var mode = effectiveTheme(), L = THEME_LABELS[currentLang];
   var btn = document.getElementById('themeBtn');
   var action = mode === 'dark' ? L.toLight : L.toDark;
-  btn.textContent = mode === 'dark' ? '☀️' : '🌙'; // icon of the mode you will switch TO
+  btn.textContent = L[mode];
   btn.setAttribute('data-full', action);
   btn.setAttribute('aria-label', action);
 }
