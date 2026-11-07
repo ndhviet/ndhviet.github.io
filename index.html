@@ -104,18 +104,18 @@
   /* Theme toggle */
   .header-controls { display:flex; align-items:stretch; gap:12px; }
   .lang-seg { display:inline-flex; align-items:stretch; border:1px solid var(--lang-border); border-radius:4px; }
-  .seg-btn, .theme-btn { position:relative; font-family:inherit; font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text); background:transparent; border:none; cursor:pointer; padding:8px 12px; }
+  .seg-btn, .theme-btn { position:relative; font-family:inherit; font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text); background:transparent; border:none; cursor:pointer; padding:6px 10px; line-height:1.3; }
   .seg-btn + .seg-btn { border-left:1px solid var(--lang-border); }
   .seg-btn:first-child { border-radius:3px 0 0 3px; }
   .seg-btn:last-child { border-radius:0 3px 3px 0; }
   .seg-btn[aria-pressed="true"] { background:var(--text); color:var(--bg); }
   .seg-btn:hover:not([aria-pressed="true"]), .theme-btn:hover { background:var(--hover-bg); }
-  .theme-btn { border:1px solid var(--lang-border); border-radius:4px; min-width:86px; text-align:center; }
+  .theme-btn { border:1px solid var(--lang-border); border-radius:4px; min-width:70px; text-align:center; }
   .seg-btn::after, .theme-btn::after { content:attr(data-full); position:absolute; top:calc(100% + 8px); left:50%; transform:translateX(-50%); white-space:nowrap; background:var(--card); color:var(--text); border:1px solid var(--border-soft); border-radius:4px; padding:6px 10px; font-size:13px; font-weight:400; letter-spacing:0; text-transform:none; box-shadow:0 4px 10px rgba(0,0,0,.15); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .15s ease; z-index:20; }
   @media (hover:hover) { .seg-btn:hover::after, .theme-btn:hover::after { opacity:1; visibility:visible; } }
   @media (min-width: 901px) {
-    .seg-btn, .theme-btn { font-size:16px; padding:10px 15px; }
-    .theme-btn { min-width:104px; }
+    .seg-btn, .theme-btn { font-size:13.5px; padding:7px 12px; }
+    .theme-btn { min-width:84px; }
   }
 
   body { font-family: 'Work Sans', Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); }
@@ -520,12 +520,12 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
       <ul class="plain">
         <li data-fr="Modèle hiérarchique bayésien pour l'écologie" data-en="Bayesian hierarchical model for ecology" data-vi="Mô hình phân cấp Bayes cho sinh thái học">Modèle hiérarchique bayésien pour l'écologie</li>
         <li data-fr="Le Chat Musicien : génération de musique par Transformer" data-en="Le Chat Musicien: music generation with a Transformer" data-vi="Le Chat Musicien: tạo nhạc bằng mô hình Transformer">Le Chat Musicien : génération de musique par Transformer</li>
-        <li data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numerique avec C++</li>
+        <li data-fr="Analyse numérique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numérique avec C++</li>
         <li data-fr="Project DPE : Analyse factorielle" data-en="DPE Project: Factor Analysis" data-vi="Dự án DPE: Phân tích nhân tố">Project DPE : Analyse factorielle</li>
-        <li data-fr="COVID-19 Analyse de données en Python." data-en="COVID-19 Data Analysis with Python" data-vi="Phân tích dữ liệu COVID-19 bằng Python.">COVID-19 Analyse de données en Python.</li>
-        <li data-fr="NLP: Analyse des sentiments sur Twitter." data-en="NLP: Twitter Sentiment Analysis" data-vi="NLP: Phân tích cảm xúc trên Twitter.">NLP: Analyse des sentiments sur Twitter.</li>
-        <li data-fr="Analyse de données avec SQL: Informer une décision d'affaires." data-en="Data Analysis with SQL: Business Decision-Making" data-vi="Phân tích dữ liệu với SQL: Hỗ trợ ra quyết định kinh doanh.">Analyse de données avec SQL: Informer une décision d'affaires.</li>
-        <li data-fr="Analyse des avis clients avec Gemini à l'aide de notebooks Python." data-en="Analyze Customer Reviews with Gemini Using Python Notebooks" data-vi="Phân tích đánh giá khách hàng với Gemini bằng notebook Python.">Analyse des avis clients avec Gemini à l'aide de notebooks Python.</li>
+        <li data-fr="Analyse de données COVID-19 en Python" data-en="Data Analysis COVID-19 with Python" data-vi="Phân tích dữ liệu COVID-19 bằng Python">COVID-19 Analyse de données en Python</li>
+        <li data-fr="NLP: Analyse des sentiments sur Twitter" data-en="NLP: Twitter Sentiment Analysis" data-vi="NLP: Phân tích cảm xúc trên Twitter">NLP: Analyse des sentiments sur Twitter</li>
+        <li data-fr="Analyse de données avec SQL: Informer une décision d'affaires" data-en="Data Analysis with SQL: Business Decision-Making" data-vi="Phân tích dữ liệu với SQL: Hỗ trợ ra quyết định kinh doanh">Analyse de données avec SQL: Informer une décision d'affaires</li>
+        <li data-fr="Analyse des avis clients avec Gemini à l'aide de notebooks Python" data-en="Analyze Customer Reviews with Gemini Using Python Notebooks" data-vi="Phân tích đánh giá khách hàng với Gemini bằng notebook Python">Analyse des avis clients avec Gemini à l'aide de notebooks Python</li>
       </ul>
     </section>
 
@@ -650,7 +650,7 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
         <img src="https://ndhviet.github.io/Projet-Analyse-numerique-Cplus-M1-UniLille/images/dashboard_analyse_numerique.png" alt="Analyse numérique avec C++">
       </a>
       <div class="project-info">
-        <h2 data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numerique avec C++</h2>
+        <h2 data-fr="Analyse numérique avec C++" data-en="Numerical Analysis with C++" data-vi="Phân tích số học với C++">Analyse numérique avec C++</h2>
         <p data-fr="Développement en C++ des méthodes numériques et itératives pour résoudre le problème de Poisson 1D, modéliser l'équation de la chaleur et traiter l'équation de Black–Scholes, afin de simuler l'évolution des solutions et analyser les résultats obtenus."
            data-en="Development in C++ of numerical and iterative methods to solve the 1D Poisson problem, model the heat equation, and handle the Black–Scholes equation, in order to simulate the evolution of solutions and analyze the results obtained."
            data-vi="Xây dựng bằng C++ các phương pháp số học và lặp để giải bài toán Poisson 1D, mô hình hóa phương trình truyền nhiệt và xử lý phương trình Black–Scholes, nhằm mô phỏng sự tiến triển của các nghiệm và phân tích kết quả thu được.">
@@ -688,7 +688,7 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
         <img src="https://static.wixstatic.com/media/a91039_f111c791d9e6450b867cb98d095f032f~mv2.png/v1/fill/w_1158,h_664,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/dashboard_covid.png" alt="COVID-19 Analyse de données en Python">
       </a>
       <div class="project-info">
-        <h2 data-fr="COVID-19 Analyse de données en Python" data-en="COVID-19 Data Analysis with Python" data-vi="Phân tích dữ liệu COVID-19 bằng Python">COVID-19 Analyse de données en Python</h2>
+        <h2 data-fr="Analyse de données COVID-19 en Python" data-en="Data Analysis COVID-19 with Python" data-vi="Phân tích dữ liệu COVID-19 bằng Python">Analyse de données COVID-19 en Python</h2>
         <p data-fr="Analyse des données COVID-19 en Python avec Seaborn, fusion des données (cas confirmés par Johns Hopkins et facteurs de vie par pays), exploration de la corrélation entre propagation du virus et bonheur, et visualisation des résultats."
            data-en="COVID-19 data analysis in Python with Seaborn, merging data (confirmed cases from Johns Hopkins and country life factors), exploring the correlation between virus spread and happiness, and visualizing the results."
            data-vi="Phân tích dữ liệu COVID-19 bằng Python với Seaborn, kết hợp dữ liệu (số ca xác nhận từ Johns Hopkins và các yếu tố đời sống theo quốc gia), khám phá mối tương quan giữa mức độ lây lan của virus và chỉ số hạnh phúc, và trực quan hóa kết quả.">
