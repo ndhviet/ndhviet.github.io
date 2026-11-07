@@ -408,6 +408,10 @@
   }
   #backToTop.show { display:flex; }
   #backToTop:hover { transform:translateY(-3px); }
+
+  /* Vầng sáng xanh nhẹ quanh ảnh: chỉ ở chế độ tối */
+  :root[data-theme="dark"] #page-home main img { box-shadow:0 0 60px 4px rgba(45,245,192,.35); }
+  @media (prefers-color-scheme: dark) { :root[data-theme="auto"] #page-home main img { box-shadow:0 0 60px 4px rgba(45,245,192,.35); } }
 </style>
 </head>
 <body>
