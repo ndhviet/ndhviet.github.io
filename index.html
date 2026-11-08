@@ -415,8 +415,11 @@
 
   /* ===== Project category toggle button (same look as the theme button) ===== */
   .proj-toggle-wrap { margin:0 0 20px; }
-  .proj-btn { font-family:inherit; font-size:13.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text); background:transparent; border:1px solid var(--lang-border); border-radius:4px; padding:7px 14px; min-width:84px; text-align:center; cursor:pointer; line-height:1.3; }
-  .proj-btn:hover { background:var(--hover-bg); }
+  .proj-tabs { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .proj-tab { font-family:inherit; font-size:13.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text); background:transparent; border:1px solid var(--lang-border); border-radius:4px; padding:7px 14px; min-width:84px; text-align:center; line-height:1.3; cursor:pointer; transition:background-color .2s, color .2s, border-color .2s; }
+  .proj-tab:hover { background:var(--hover-bg); }
+  .proj-tab.active { background:var(--active); border-color:var(--active); color:var(--bg); }
+  .proj-tab.active:hover { background:var(--active); }
   .project-card.proj-hidden { display:none; }
 </style>
 </head>
@@ -621,7 +624,10 @@ machine learning, Python, R, SQL et C++. À la recherche d'un stage de 3 à 6 mo
     <h2 class="page-title reveal" data-fr="Projets" data-en="Projects" data-vi="Dự án">Projets</h2>
 
     <div class="reveal proj-toggle-wrap">
-      <button type="button" class="proj-btn" id="projBtn" onclick="toggleProjCat()" aria-live="polite"><span id="projBtnLabel" data-fr="Projets académiques" data-en="Academic projects" data-vi="Dự án học thuật">Projets académiques</span></button>
+      <div class="proj-tabs" role="tablist">
+        <button type="button" class="proj-tab active" data-cat="academic" onclick="setProjCat('academic')" data-fr="Académiques" data-en="Academic" data-vi="Học thuật">Académiques</button>
+        <button type="button" class="proj-tab" data-cat="coursera" onclick="setProjCat('coursera')">Coursera</button>
+      </div>
     </div>
 
 
@@ -952,19 +958,14 @@ window.addEventListener('scroll', function() {
   }
 });
 
-/* ===== Project category toggle (click to switch, like the theme button) ===== */
+/* ===== Project category tabs: Académiques / Coursera ===== */
 var projCat = 'academic';
-var PROJ_LABELS = {
-  academic: { fr: 'Projets académiques', en: 'Academic projects', vi: 'Dự án học thuật' },
-  coursera: { fr: 'Projets Coursera', en: 'Coursera projects', vi: 'Dự án Coursera' }
-};
 function applyProjCat(animate) {
-  var label = document.getElementById('projBtnLabel');
-  var l = PROJ_LABELS[projCat];
-  label.setAttribute('data-fr', l.fr);
-  label.setAttribute('data-en', l.en);
-  label.setAttribute('data-vi', l.vi);
-  label.textContent = l[currentLang] || l.fr;
+  document.querySelectorAll('.proj-tab').forEach(function (t) {
+    var on = t.getAttribute('data-cat') === projCat;
+    t.classList.toggle('active', on);
+    t.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
   var shown = [];
   document.querySelectorAll('#page-projects .project-card').forEach(function (c) {
     var ok = c.getAttribute('data-cat') === projCat;
@@ -977,8 +978,9 @@ function applyProjCat(animate) {
     shown.forEach(function (c, i) { setTimeout(function () { c.classList.add('show'); }, i * 110); });
   }
 }
-function toggleProjCat() {
-  projCat = projCat === 'academic' ? 'coursera' : 'academic';
+function setProjCat(cat) {
+  if (cat === projCat) return;
+  projCat = cat;
   applyProjCat(true);
 }
 applyProjCat(false);
