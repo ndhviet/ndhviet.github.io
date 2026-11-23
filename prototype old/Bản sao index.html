@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Duc Hoang Viet NGUYEN — Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a1210;
+    --ink-2:#0d1815;
+    --panel:#101c19;
+    --panel-2:#132420;
+    --line:#1e332c;
+    --line-soft:rgba(79,216,176,.08);
+    --text:#e9efeb;
+    --text-dim:#8fa89e;
+    --text-faint:#5a7168;
+    --teal:#4fd8b0;
+    --teal-dim:#2f8f74;
+    --amber:#e8b45c;
+    --coral:#e2836f;
+    --radius:3px;
+    --serif-hero: 'Space Grotesk', sans-serif;
+    --sans: 'IBM Plex Sans', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--ink); color:var(--text);
+    font-family:var(--sans); line-height:1.6;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:44px 44px;
+    background-attachment:fixed;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--teal); color:#06110d;}
+
+  /* Scrollbar */
+  html{scrollbar-color:var(--teal-dim) var(--ink);}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--ink);}
+  ::-webkit-scrollbar-thumb{background:var(--teal-dim); border-radius:6px;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--teal);}
+
+  /* ===== Loading screen ===== */
+  .loading-screen{
+    position:fixed; inset:0; background:var(--ink); z-index:10000;
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+    padding:0 8vw; transition:opacity .6s ease, visibility .6s ease;
+    font-family:var(--mono);
+  }
+  .loading-screen.fade-out{opacity:0; visibility:hidden; pointer-events:none;}
+  .ls-line{color:var(--text-dim); font-size:14px; margin-bottom:6px; opacity:0; animation:lsAppear .4s ease forwards;}
+  .ls-line span.ok{color:var(--teal);}
+  .ls-line:nth-child(1){animation-delay:.1s;}
+  .ls-line:nth-child(2){animation-delay:.5s;}
+  .ls-line:nth-child(3){animation-delay:.9s;}
+  @keyframes lsAppear{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+  .ls-name{
+    font-family:var(--serif-hero); font-size:clamp(28px,5vw,52px); font-weight:600;
+    color:var(--text); margin:18px 0 20px; opacity:0; animation:lsAppear .5s ease 1.3s forwards;
+  }
+  .ls-bar-wrap{width:min(320px,60vw); height:2px; background:var(--line); opacity:0; animation:lsAppear .3s ease 1.5s forwards;}
+  .ls-bar{height:100%; width:0%; background:var(--teal); transition:width .12s linear;}
+  .ls-pct{font-size:12px; color:var(--text-faint); margin-top:10px; opacity:0; animation:lsAppear .3s ease 1.5s forwards;}
+
+  /* ===== Header ===== */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 48px; border-bottom:1px solid var(--line);
+    background:rgba(10,18,16,.86); backdrop-filter:blur(8px);
+    position:sticky; top:0; z-index:500;
+  }
+  header .brand{display:flex; align-items:center; gap:12px; cursor:pointer;}
+  .brand-mark{
+    width:32px; height:32px; border:1px solid var(--teal); border-radius:var(--radius);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:14px; color:var(--teal); flex-shrink:0;
+  }
+  header .brand span{font-family:var(--serif-hero); font-size:19px; font-weight:600; letter-spacing:.01em;}
+  .header-right{display:flex; align-items:center; gap:34px;}
+  .lang-wrap{position:relative; font-family:var(--mono); font-size:13px;}
+  .lang-select{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line);
+    border-radius:var(--radius); padding:8px 12px; cursor:pointer; user-select:none;
+    color:var(--text-dim); transition:border-color .15s, color .15s;
+  }
+  .lang-select:hover{border-color:var(--teal-dim); color:var(--text);}
+  .lang-menu{
+    display:none; position:absolute; top:calc(100% + 6px); left:0; background:var(--panel-2);
+    border:1px solid var(--line); border-radius:var(--radius); min-width:100%;
+    box-shadow:0 12px 24px rgba(0,0,0,.35); z-index:10; overflow:hidden;
+  }
+  .lang-menu.open{display:block;}
+  .lang-menu div{padding:9px 14px; cursor:pointer; white-space:nowrap; color:var(--text-dim);}
+  .lang-menu div:hover{background:var(--panel); color:var(--text);}
+  nav ul{list-style:none; display:flex; gap:30px; margin:0; padding:0; align-items:center;}
+  nav a{
+    text-decoration:none; color:var(--text-dim); font-size:15px; cursor:pointer;
+    position:relative; padding-bottom:4px; transition:color .15s;
+  }
+  nav a::after{
+    content:''; position:absolute; left:0; right:100%; bottom:0; height:1px;
+    background:var(--teal); transition:right .2s ease;
+  }
+  nav a:hover{color:var(--text);}
+  nav a.active{color:var(--text);}
+  nav a.active::after{right:0;}
+
+  .page{display:none;}
+  .page.active{display:block;}
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s ease;}
+  .reveal.show{opacity:1; transform:translateY(0);}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 48px;}
+  .meta-tag{
+    font-family:var(--mono); font-size:12.5px; color:var(--teal); display:inline-flex;
+    align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .meta-tag::before{content:''; width:6px; height:6px; background:var(--teal); border-radius:50%; display:inline-block;}
+  h2.section-title{
+    font-family:var(--serif-hero); font-size:clamp(26px,3vw,34px); font-weight:600;
+    margin:0 0 34px; padding-left:16px; border-left:2px solid var(--teal-dim);
+  }
+
+  /* ===== Home ===== */
+  #page-home main{
+    max-width:1180px; margin:0 auto; padding:64px 48px 0;
+    display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center;
+    min-height:calc(100vh - 90px);
+  }
+  #page-home .intro h1{
+    font-family:var(--serif-hero); font-size:clamp(40px,5.4vw,64px); font-weight:600;
+    line-height:1.08; margin:0 0 22px; letter-spacing:-.01em;
+  }
+  #page-home .intro h1 em{font-style:normal; color:var(--teal);}
+  #page-home .intro p{font-size:17px; line-height:1.75; color:var(--text-dim); max-width:560px; margin:0 0 30px;}
+  #page-home .buttons{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px;}
+  #page-home .buttons a{
+    font-family:var(--mono); font-size:14px; padding:13px 22px; border:1px solid var(--line);
+    border-radius:var(--radius); text-decoration:none; color:var(--text); cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  #page-home .buttons a:first-child{background:var(--teal); border-color:var(--teal); color:#06110d; font-weight:500;}
+  #page-home .buttons a:first-child:hover{background:#63e6be;}
+  #page-home .buttons a:not(:first-child):hover{border-color:var(--teal-dim); background:var(--panel);}
+  .stat-row{display:flex; gap:38px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:26px;}
+  .stat-row div{display:flex; flex-direction:column; gap:4px;}
+  .stat-row .num{font-family:var(--mono); font-size:26px; color:var(--teal);}
+  .stat-row .lbl{font-size:13px; color:var(--text-faint);}
+  .hero-visual{
+    position:relative; aspect-ratio:1/1; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--panel); overflow:hidden;
+  }
+  .hero-visual canvas{width:100%; height:100%; display:block;}
+  .hero-visual .hv-tag{
+    position:absolute; top:14px; left:14px; font-family:var(--mono); font-size:11px;
+    color:var(--text-faint); z-index:2;
+  }
+  .hero-photo{
+    position:absolute; bottom:16px; right:16px; width:104px; height:104px; border-radius:50%;
+    object-fit:cover; border:2px solid var(--ink); box-shadow:0 0 0 1px var(--teal-dim); z-index:2;
+  }
+
+  /* ===== Resume ===== */
+  #page-resume main{max-width:1180px; margin:0 auto; padding:0 48px 120px;}
+  .top-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px;
+    padding:44px 48px 40px; max-width:1180px; margin:0 auto; border-bottom:1px solid var(--line);
+  }
+  h1.name{font-family:var(--serif-hero); font-size:32px; margin:0; font-weight:600;}
+  .cv-btn{
+    display:inline-flex; align-items:center; gap:10px; background:transparent; border:1px solid var(--teal-dim);
+    border-radius:var(--radius); padding:11px 20px; text-decoration:none; color:var(--teal);
+    font-family:var(--mono); font-size:13.5px; transition:background .15s, color .15s;
+  }
+  .cv-btn:hover{background:var(--teal); color:#06110d;}
+  .dl-icon{display:inline-flex; transition:transform .2s ease;}
+  .cv-btn:hover .dl-icon{transform:translateY(2px);}
+
+  section.res-block{padding:48px 0; border-bottom:1px solid var(--line);}
+  section.res-block:last-of-type{border-bottom:none;}
+
+  .edu-item{display:flex; justify-content:space-between; gap:24px; margin-bottom:28px; padding-left:20px; border-left:1px solid var(--line); position:relative;}
+  .edu-item::before{content:''; position:absolute; left:-4px; top:6px; width:7px; height:7px; border-radius:50%; background:var(--teal);}
+  .edu-item .left h3{font-size:17px; font-weight:600; margin:0 0 4px; font-family:var(--sans);}
+  .edu-item .left p{margin:0; font-size:15px; color:var(--text-dim);}
+  .edu-item .date{font-family:var(--mono); font-size:13px; color:var(--text-faint); white-space:nowrap; padding-top:2px;}
+
+  ul.plain{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:2px;}
+  ul.plain li{
+    font-size:15.5px; padding:13px 0; border-bottom:1px solid var(--line-soft); color:var(--text-dim);
+    display:flex; align-items:center; gap:12px;
+  }
+  ul.plain li::before{content:'—'; color:var(--teal-dim); font-family:var(--mono);}
+
+  .comp-row{display:flex; gap:34px; margin-bottom:30px; flex-wrap:wrap;}
+  .comp-label{width:120px; flex-shrink:0; font-family:var(--mono); font-size:13px; color:var(--text-faint); padding-top:8px;}
+  .skills-grid{display:flex; flex-wrap:wrap; gap:10px; flex:1;}
+  .skill-chip{
+    display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:var(--radius);
+    padding:8px 13px; background:var(--panel);
+  }
+  .skill-chip img{width:16px; height:16px; object-fit:contain;}
+  .skill-chip span{font-family:var(--mono); font-size:13px; color:var(--text-dim);}
+  .lang-list{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .lang-list li{font-size:15px; color:var(--text-dim); display:flex; justify-content:space-between; max-width:340px; border-bottom:1px dashed var(--line); padding-bottom:8px;}
+
+  .cert-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  .cert-card{border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--panel); transition:border-color .15s;}
+  .cert-card:hover{border-color:var(--teal-dim);}
+  .cert-card img{width:100%; height:100px; object-fit:cover; display:block; border-bottom:1px solid var(--line);}
+  .cert-card a{display:block; padding:12px 14px; font-size:13.5px; font-weight:500; color:var(--text); text-decoration:none; line-height:1.4;}
+
+  /* ===== Projects ===== */
+  #page-projects main{max-width:1180px; margin:0 auto; padding:56px 48px 120px;}
+  h1.page-title{font-family:var(--serif-hero); font-size:38px; font-weight:600; margin:0 0 8px;}
+  p.page-sub{color:var(--text-dim); margin:0 0 44px; font-size:15.5px;}
+  .project-card{display:grid; grid-template-columns:340px 1fr; gap:44px; padding:36px 0; border-top:1px solid var(--line); align-items:center;}
+  .project-card img{width:100%; border-radius:var(--radius); object-fit:cover; border:1px solid var(--line);}
+  .project-card a.dash-link img{cursor:pointer; transition:border-color .15s, transform .15s;}
+  .project-card a.dash-link:hover img{border-color:var(--teal-dim); transform:scale(1.015);}
+  .project-info h2{font-size:20px; font-weight:600; margin:0 0 12px; font-family:var(--sans);}
+  .project-info p{font-size:15px; line-height:1.65; color:var(--text-dim); margin:0 0 16px;}
+  .project-tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .project-tags span{font-family:var(--mono); font-size:11.5px; color:var(--teal); border:1px solid var(--teal-dim); border-radius:var(--radius); padding:3px 9px;}
+  .project-buttons{display:flex; gap:12px; flex-wrap:wrap;}
+  .project-buttons a{
+    display:inline-flex; align-items:center; gap:7px; padding:10px 18px; border-radius:var(--radius);
+    text-decoration:none; font-family:var(--mono); font-size:13px; border:1px solid var(--line); color:var(--text-dim);
+    transition:border-color .15s, color .15s;
+  }
+  .project-buttons a:hover{border-color:var(--teal-dim); color:var(--text);}
+  .project-buttons a.pdf-btn{color:var(--amber); border-color:rgba(232,180,92,.35);}
+  .project-buttons a.more-btn{color:var(--teal); border-color:var(--teal-dim);}
+
+  /* ===== Contact ===== */
+  #page-contact main{max-width:1180px; margin:0 auto; padding:56px 48px 120px; display:grid; grid-template-columns:.85fr 1.15fr; gap:70px;}
+  .contact-info h3{font-family:var(--mono); font-size:12.5px; color:var(--text-faint); margin:26px 0 6px; text-transform:lowercase;}
+  .contact-info h3:first-of-type{margin-top:0;}
+  .contact-info p{font-size:16px; margin:0; color:var(--text);}
+  .contact-social{display:flex; gap:12px; margin-top:30px;}
+  .contact-social a{display:flex; border:1px solid var(--line); border-radius:var(--radius); padding:9px; transition:border-color .15s;}
+  .contact-social a:hover{border-color:var(--teal-dim);}
+  .contact-social img{width:20px; height:20px; border-radius:3px;}
+  .contact-form{display:flex; flex-direction:column; gap:20px;}
+  .contact-row{display:flex; gap:18px; flex-wrap:wrap;}
+  .contact-field{flex:1; min-width:180px; display:flex; flex-direction:column; gap:7px;}
+  .contact-field label{font-family:var(--mono); font-size:12.5px; color:var(--text-faint);}
+  .contact-field input, .contact-field textarea{
+    border:1px solid var(--line); border-radius:var(--radius); padding:13px 14px; font-size:15px;
+    font-family:var(--sans); background:var(--panel); color:var(--text); outline:none;
+    transition:border-color .15s;
+  }
+  .contact-field input:focus, .contact-field textarea:focus{border-color:var(--teal);}
+  .contact-field textarea{resize:vertical; min-height:120px;}
+  .contact-submit{
+    margin-top:6px; padding:15px 30px; border-radius:var(--radius); border:1px solid var(--teal);
+    background:var(--teal); color:#06110d; font-family:var(--mono); font-size:14.5px; font-weight:500;
+    cursor:pointer; align-self:flex-start; transition:background .15s;
+  }
+  .contact-submit:hover{background:#63e6be;}
+  .contact-note{font-size:12.5px; color:var(--text-faint); margin-top:-10px;}
+
+  footer{
+    border-top:1px solid var(--line); padding:40px 48px; display:flex; justify-content:space-between;
+    flex-wrap:wrap; gap:24px; font-size:14.5px; color:var(--text-dim);
+  }
+  footer div{min-width:160px;}
+  footer strong{display:block; margin-bottom:10px; font-family:var(--mono); font-size:12px; color:var(--text-faint); font-weight:400;}
+  footer a{color:var(--text-dim); text-decoration:none;}
+  footer a:hover{color:var(--teal);}
+  .icon-row{display:flex; gap:10px; align-items:center;}
+  .icon-row img{width:20px; height:20px; border-radius:3px;}
+  .copyright{text-align:right; font-family:var(--mono); font-size:12.5px; color:var(--text-faint);}
+
+  @media (max-width:900px){
+    header{padding:16px 20px;}
+    .wrap, #page-resume main, #page-projects main, #page-contact main, .top-row{padding-left:20px; padding-right:20px;}
+    .header-right{gap:16px;}
+    nav ul{gap:16px;}
+    nav a{font-size:13.5px;}
+
+    #page-home main{grid-template-columns:1fr; padding:36px 20px 0; text-align:left; gap:36px;}
+    .hero-visual{aspect-ratio:16/10;}
+    #page-home .intro h1{font-size:38px;}
+    .stat-row{gap:26px;}
+
+    h1.name{font-size:26px;}
+    .comp-row{flex-direction:column; gap:14px;}
+    .comp-label{width:auto;}
+    .cert-grid{grid-template-columns:1fr 1fr;}
+
+    .project-card{grid-template-columns:1fr; gap:20px;}
+
+    #page-contact main{grid-template-columns:1fr; gap:40px;}
+
+    footer{flex-direction:column;}
+    .copyright{text-align:left;}
+  }
+  @media (max-width:480px){
+    #page-home .intro h1{font-size:30px;}
+    .cert-grid{grid-template-columns:1fr;}
+    .contact-row{flex-direction:column;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none; opacity:1; transform:none;}
+    *{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="ls-line">&gt; loading_profile<span class="ok">.ok</span></div>
+  <div class="ls-line">&gt; compiling_projects<span class="ok">.ok</span></div>
+  <div class="ls-line">&gt; rendering_portfolio…</div>
+  <div class="ls-name">NGUYEN DUC HOANG VIET</div>
+  <div class="ls-bar-wrap"><div class="ls-bar" id="loadingBar"></div></div>
+  <div class="ls-pct" id="loadingPct">0%</div>
+</div>
+
+<header>
+  <div class="brand" onclick="showPage('home')">
+    <div class="brand-mark">V</div>
+    <span>Duc Hoang Viet NGUYEN</span>
+  </div>
+  <div class="header-right">
+    <div class="lang-wrap">
+      <div class="lang-select" id="langSelect" onclick="document.getElementById('langMenu').classList.toggle('open')">
+        <span id="langLabel">FR</span> ▾
+      </div>
+      <div class="lang-menu" id="langMenu">
+        <div onclick="setLang('fr')">Français</div>
+        <div onclick="setLang('en')">English</div>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a onclick="showPage('home')" class="nav-home active" data-fr="Accueil" data-en="Home">Accueil</a></li>
+        <li><a onclick="showPage('resume')" class="nav-resume" data-fr="Parcours" data-en="Resume">Parcours</a></li>
+        <li><a onclick="showPage('projects')" class="nav-projects" data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a onclick="showPage('contact')" class="nav-contact" data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== PAGE: HOME ===================== -->
+<div class="page active" id="page-home">
+  <main>
+    <div class="intro">
+      <div class="meta-tag reveal" data-fr="Disponible pour un stage" data-en="Open to internships">Disponible pour un stage</div>
+      <h1 class="reveal" data-fr='Bonjour, je suis <em>Viet</em>.' data-en='Hi, I&#39;m <em>Viet</em>.'>Bonjour, je suis <em>Viet</em>.</h1>
+      <p class="reveal" data-fr="Étudiant en Master 1 Ingénierie Statistique et Numérique – Data Sciences (Université de Lille), avec une expérience pratique à travers plusieurs projets en programmation, bases de données et analyse de données. Maîtrise de Python, R, SQL et C++. À la recherche d'un stage de 3-6 mois en analyse de données ou statistique appliquée dès que possible."
+         data-en="Master 1 student in Statistical Engineering and Data Science (Université de Lille), with hands-on experience through multiple projects in programming, databases, and data analysis. Proficient in Python, R, SQL and C++. Seeking a 3–4 month internship in data analysis or applied statistics as soon as possible.">
+         Étudiant en Master 1 Ingénierie Statistique et Numérique – Data Sciences (Université de Lille), avec une expérience pratique à travers plusieurs projets en programmation, bases de données et analyse de données. Maîtrise de Python, R, SQL et C++. À la recherche d'un stage de 3-6 mois en analyse de données ou statistique appliquée dès que possible.
+      </p>
+      <div class="buttons reveal">
+        <a onclick="showPage('projects')" data-fr="Voir les projets" data-en="View projects">Voir les projets</a>
+        <a onclick="showPage('resume')" data-fr="Parcours" data-en="Resume">Parcours</a>
+        <a onclick="showPage('contact')" data-fr="Contact" data-en="Contact">Contact</a>
+      </div>
+      <div class="stat-row reveal">
+        <div><span class="num">7</span><span class="lbl" data-fr="projets" data-en="projects">projets</span></div>
+        <div><span class="num">4</span><span class="lbl" data-fr="langages: Py·R·SQL·C++" data-en="languages: Py·R·SQL·C++">langages: Py·R·SQL·C++</span></div>
+        <div><span class="num">4</span><span class="lbl" data-fr="langues parlées" data-en="spoken languages">langues parlées</span></div>
+        <div><span class="num">2026</span><span class="lbl" data-fr="entrée en M2 SAF" data-en="M2 SAF start">entrée en M2 SAF</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <span class="hv-tag">graph.render(nodes=48)</span>
+      <canvas id="networkCanvas"></canvas>
+      <img class="hero-photo" src="https://static.wixstatic.com/media/a91039_bba03c9865054b16b3c026eb16b15eb7~mv2.jpg/v1/crop/x_0,y_359,w_1277,h_1277/fill/w_588,h_584,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_8177_edited.jpg" alt="Photo profil">
+    </div>
+  </main>
+</div>
+
+<!-- ===================== PAGE: RESUME ===================== -->
+<div class="page" id="page-resume">
+  <div class="top-row reveal">
+    <h1 class="name">Duc Hoang Viet NGUYEN</h1>
+    <a class="cv-btn" href="https://drive.google.com/file/d/178Rkv0KILJSsAo-5nyl-966lgTm2jSvg/view?usp=sharing" target="_blank">
+      <span data-fr="Télécharger CV" data-en="Download CV">Télécharger CV</span><span class="dl-icon">↓</span>
+    </a>
+  </div>
+
+  <main>
+    <section class="res-block reveal">
+      <h2 class="section-title" data-fr="Formations" data-en="Education">Formations</h2>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="MASTER 2 Data Science: Santé, Assurance et Finance" data-en="Master 2 in Data Science: Health, Insurance and Finance">MASTER 2 Data Science: Santé, Assurance et Finance</h3>
+          <p>Université Paris-Saclay, France</p>
+        </div>
+        <div class="date">Sept 2026</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="MASTER 1 Ingénierie, statistiques et numérique - Data sciences" data-en="Master 1 in Engineering, Statistics, and Computing – Data Science">MASTER 1 Ingénierie, statistiques et numérique - Data sciences</h3>
+          <p data-fr="Université de Lille, France" data-en="University of Lille, France">Université de Lille, France</p>
+        </div>
+        <div class="date">Sept 2025 - Juin 2026</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="LICENCE MATHÉMATIQUES APPLIQUÉES" data-en="Bachelor's Degree in Applied Mathematics">LICENCE MATHÉMATIQUES APPLIQUÉES</h3>
+          <p data-fr="Université de Strasbourg, France" data-en="University of Strasbourg, France">Université de Strasbourg, France</p>
+        </div>
+        <div class="date" data-fr="Sept 2021 - Juin 2025" data-en="Sep 2021 – Jun 2025">Sept 2021 - Juin 2025</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="Baccalauréat Viet Nam" data-en="High School Diploma Vietnam">Baccalauréat Viet Nam</h3>
+          <p data-fr="Lycée Hanoi - Amsterdam, Viet Nam" data-en="Hanoi – Amsterdam High School, Vietnam">Lycée Hanoi - Amsterdam, Viet Nam</p>
+        </div>
+        <div class="date" data-fr="Sept 2018 - Juin 2021" data-en="Sep 2018 – Jun 2021">Sept 2018 - Juin 2021</div>
+      </div>
+    </section>
+
+    <section class="res-block reveal">
+      <h2 class="section-title" data-fr="Projets personnels" data-en="Personal projects">Projets personnels</h2>
+      <ul class="plain">
+        <li data-fr="Modèle hiérarchique bayésien pour l'écologie" data-en="Bayesian hierarchical model for ecology">Modèle hiérarchique bayésien pour l'écologie</li>
+        <li data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++">Analyse numerique avec C++</li>
+        <li data-fr="Project DPE : Analyse factorielle" data-en="DPE Project: Factor Analysis">Project DPE : Analyse factorielle</li>
+        <li data-fr="COVID-19 Analyse de données en Python." data-en="COVID-19 Data Analysis with Python">COVID-19 Analyse de données en Python.</li>
+        <li data-fr="NLP: Analyse des sentiments sur Twitter." data-en="NLP: Twitter Sentiment Analysis">NLP: Analyse des sentiments sur Twitter.</li>
+        <li data-fr="Analyse de données avec SQL: Informer une décision d'affaires." data-en="Data Analysis with SQL: Business Decision-Making">Analyse de données avec SQL: Informer une décision d'affaires.</li>
+        <li data-fr="Analyse des avis clients avec Gemini à l'aide de notebooks Python." data-en="Analyze Customer Reviews with Gemini Using Python Notebooks">Analyse des avis clients avec Gemini à l'aide de notebooks Python.</li>
+      </ul>
+    </section>
+
+    <section class="res-block reveal">
+      <h2 class="section-title" data-fr="Compétences" data-en="Skills">Compétences</h2>
+
+      <div class="comp-row">
+        <div class="comp-label" data-fr="Logiciels" data-en="Tools">Logiciels</div>
+        <div class="skills-grid">
+          <div class="skill-chip"><img src="assets/excel.png" alt="Excel"><span>Excel</span></div>
+          <div class="skill-chip"><img src="assets/googlesheets.png" alt="Google Sheets"><span>Google Sheets</span></div>
+          <div class="skill-chip"><img src="assets/sql.png" alt="SQL"><span>SQL</span></div>
+          <div class="skill-chip"><img src="assets/r.png" alt="R"><span>R</span></div>
+          <div class="skill-chip"><img src="assets/python.png" alt="Python"><span>Python</span></div>
+          <div class="skill-chip"><img src="assets/cpp.png" alt="C++"><span>C++</span></div>
+          <div class="skill-chip"><img src="https://cdn.simpleicons.org/numpy/013243" alt="Numpy"><span>Numpy</span></div>
+          <div class="skill-chip"><img src="assets/matplotlib.png" alt="Matplotlib"><span>Matplotlib</span></div>
+          <div class="skill-chip"><img src="assets/pandas.png" alt="Pandas"><span>Pandas</span></div>
+          <div class="skill-chip"><img src="assets/tableau.png" alt="Tableau"><span>Tableau</span></div>
+        </div>
+      </div>
+
+      <div class="comp-row">
+        <div class="comp-label" data-fr="Langues" data-en="Languages">Langues</div>
+        <ul class="lang-list">
+          <li><span data-fr="Anglais" data-en="English">Anglais</span><span data-fr="Avancé (C1, IELTS 7.0)" data-en="Advanced (C1, IELTS 7.0)">Avancé (C1, IELTS 7.0)</span></li>
+          <li><span data-fr="Français" data-en="French">Français</span><span data-fr="Avancé (B2)" data-en="Advanced (B2)">Avancé (B2)</span></li>
+          <li><span data-fr="Allemand" data-en="German">Allemand</span><span>A2</span></li>
+          <li><span data-fr="Vietnamien" data-en="Vietnamese">Vietnamien</span><span data-fr="Langue maternelle" data-en="Native language">Langue maternelle</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="res-block reveal">
+      <h2 class="section-title" data-fr="Certifications" data-en="Certifications">Certifications</h2>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_34983a3742474fce9258da8f7f112612~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/specialization/TXLV6TXE26CW" target="_blank">Machine Learning Specialization | DeepLearning.AI & Stanford University</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_ae5c1e63c4334cdca6bb675755555173~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/specialization/AQZFWKN86L4O" target="_blank">Data-Driven Decision Making (DDDM) | University at Buffalo</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_8f79762245d54edea956f7b20d6c46da~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/professional-cert/CX4W58WT249V" target="_blank">Google Data Analytics Professional Certificate | Google Coursera</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_39ffc0662d4a4f669c45a65d40b35477~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/verify/T20D36XSRCC4" target="_blank">Google AI Essentials | Google Coursera</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_5e98068010e142a0a1d602479eebe977~mv2.png" alt="">
+          <a href="https://www.hackerrank.com/certificates/a244787a5708" target="_blank">SQL Basic | Hackerrank</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_d7368667cf4242308ce0fb45d09b3b40~mv2.png" alt="">
+          <a href="https://www.hackerrank.com/certificates/10454c994144" target="_blank">Python Basic | Hackerrank</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_3076c67b54b44f2d813a848839f0d7b6~mv2.png" alt="">
+          <a href="https://codelearn.io/share/372bfde3-459c-4140-b6a2-4f352914d4f6" target="_blank">Programmation orientée objet en C++ | Code Learn</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_c0575057d5c240f29f0343690593c642~mv2.jpg" alt="">
+          <a href="https://www.udemy.com/certificate/UC-007fcdfb-01f4-4119-8e39-618ad657e8ed/" target="_blank">Data Analyst : Certification professionnelle en analyse de données | Udemy</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ===================== PAGE: PROJECTS ===================== -->
+<div class="page" id="page-projects">
+  <main>
+    <h1 class="page-title reveal" data-fr="Projets" data-en="Projects">Projets</h1>
+    <p class="page-sub reveal" data-fr="Une sélection de projets académiques et personnels en statistique, data science et développement." data-en="A selection of academic and personal projects in statistics, data science, and development.">Une sélection de projets académiques et personnels en statistique, data science et développement.</p>
+
+    <!-- 1 -->
+    <div class="project-card reveal">
+      <a class="dash-link" href="https://hoangviet1810.github.io/Projet-Modele-bayesien-pour-ecologie/images/dashboard_moustique.html" target="_blank">
+        <img src="https://static.wixstatic.com/media/a91039_1e4e3569beb645d0a10eee0c5cf1d0be~mv2.png/v1/fill/w_1200,h_696,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/dashboard_bayes.png" alt="Modèle hiérarchique bayésien pour l'écologie">
+      </a>
+      <div class="project-info">
+        <h2 data-fr="Modèle hiérarchique bayésien pour l'écologie" data-en="Bayesian hierarchical model for ecology">Modèle hiérarchique bayésien pour l'écologie</h2>
+        <div class="project-tags"><span>Bayesian / HMC</span><span>R</span><span>Écologie</span></div>
+        <p data-fr="Étude de la distribution spatio-temporelle d'Aedes albopictus en France métropolitaine (2014-2025) par une approche bayésienne (HMC), afin d'analyser les facteurs environnementaux influençant l'expansion du moustique tigre."
+           data-en="Study of the spatio-temporal distribution of Aedes albopictus in mainland France (2014–2025) using a Bayesian approach (HMC), to analyze the environmental factors influencing the tiger mosquito's expansion.">
+           Étude de la distribution spatio-temporelle d'Aedes albopictus en France métropolitaine (2014-2025) par une approche bayésienne (HMC), afin d'analyser les facteurs environnementaux influençant l'expansion du moustique tigre.
+        </p>
+        <div class="project-buttons">
+          <a class="pdf-btn" href="https://hoangviet1810.github.io/Projet-Modele-bayesien-pour-ecologie/Rapport.pdf" target="_blank"><span data-fr="Rapport PDF" data-en="PDF Report">Rapport PDF</span><span class="dl-icon">↓</span></a>
+          <a class="more-btn" href="https://hoangviet1810.github.io/Projet_Modele_hierarchique_bayesien_pour_ecologie/" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="project-card reveal">
+      <a class="dash-link" href="https://hoangviet1810.github.io/Projet-Analyse-numerique-Cplus-M1-UniLille/images/dashboard.html" target="_blank">
+        <img src="https://static.wixstatic.com/media/a91039_aea16fd1bffd4ff9b021f379c49f34f7~mv2.png/v1/fill/w_1200,h_640,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/dashboard_analyse_numerique.png" alt="Analyse numérique avec C++">
+      </a>
+      <div class="project-info">
+        <h2 data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++">Analyse numerique avec C++</h2>
+        <div class="project-tags"><span>C++</span><span>Poisson 1D</span><span>Black–Scholes</span></div>
+        <p data-fr="Développement en C++ des méthodes numériques et itératives pour résoudre le problème de Poisson 1D, modéliser l'équation de la chaleur et traiter l'équation de Black–Scholes, afin de simuler l'évolution des solutions et analyser les résultats obtenus."
+           data-en="Development in C++ of numerical and iterative methods to solve the 1D Poisson problem, model the heat equation, and handle the Black–Scholes equation, in order to simulate the evolution of solutions and analyze the results obtained.">
+           Développement en C++ des méthodes numériques et itératives pour résoudre le problème de Poisson 1D, modéliser l'équation de la chaleur et traiter l'équation de Black–Scholes, afin de simuler l'évolution des solutions et analyser les résultats obtenus.
+        </p>
+        <div class="project-buttons">
+          <a class="pdf-btn" href="https://github.com/Hoangviet1810/Projet-Analyse-numerique-Cplus-M1-UniLille/blob/main/Project_Analyse_numerique_en_C__.pdf" target="_blank"><span data-fr="Rapport PDF" data-en="PDF Report">Rapport PDF</span><span class="dl-icon">↓</span></a>
+          <a class="more-btn" href="https://github.com/Hoangviet1810/projet-Analyse-numerique-Cplus-M1-UniLille" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="project-card reveal">
+      <a class="dash-link" href="https://hoangviet1810.github.io/Projet-Analyse-Factorielle-DPE/images/dpe_dashboard.html" target="_blank">
+        <img src="https://static.wixstatic.com/media/a91039_ab3194ee0e584363b2a6745c6250ea35~mv2.png/v1/fill/w_1200,h_670,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/Dashboard_DPE.png" alt="Projet DPE : Analyse factorielle">
+      </a>
+      <div class="project-info">
+        <h2 data-fr="Projet DPE : Analyse factorielle" data-en="DPE Project: Factor Analysis">Projet DPE : Analyse factorielle</h2>
+        <div class="project-tags"><span>R</span><span>Python</span><span>AFDM</span></div>
+        <p data-fr="Analyser les différents facteurs influençant la consommation d'énergie et les émissions de gaz à effet de serre afin de mieux comprendre les relations entre les caractéristiques des logements et leur efficacité énergétique en R, Python."
+           data-en="Analyze the various factors influencing energy consumption and greenhouse gas emissions to better understand the relationships between housing characteristics and their energy efficiency, using R and Python.">
+           Analyser les différents facteurs influençant la consommation d'énergie et les émissions de gaz à effet de serre afin de mieux comprendre les relations entre les caractéristiques des logements et leur efficacité énergétique en R, Python.
+        </p>
+        <div class="project-buttons">
+          <a class="pdf-btn" href="https://hoangviet1810.github.io/Projet-Analyse-Factorielle-DPE/ProjetDPE.pdf" target="_blank"><span data-fr="Rapport PDF" data-en="PDF Report">Rapport PDF</span><span class="dl-icon">↓</span></a>
+          <a class="more-btn" href="https://hoangviet1810.github.io/DPE/" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="project-card reveal">
+      <a class="dash-link" href="https://hoangviet1810.github.io/Projet-Covid-19-Data-Analyst/images/dashboard_covid_happiness.html" target="_blank">
+        <img src="https://static.wixstatic.com/media/a91039_f111c791d9e6450b867cb98d095f032f~mv2.png/v1/fill/w_1158,h_664,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/dashboard_covid.png" alt="COVID-19 Analyse de données en Python">
+      </a>
+      <div class="project-info">
+        <h2 data-fr="COVID-19 Analyse de données en Python" data-en="COVID-19 Data Analysis with Python">COVID-19 Analyse de données en Python</h2>
+        <div class="project-tags"><span>Python</span><span>Seaborn</span></div>
+        <p data-fr="Analyse des données COVID-19 en Python avec Seaborn, fusion des données (cas confirmés par Johns Hopkins et facteurs de vie par pays), exploration de la corrélation entre propagation du virus et bonheur, et visualisation des résultats."
+           data-en="COVID-19 data analysis in Python with Seaborn, merging data (confirmed cases from Johns Hopkins and country life factors), exploring the correlation between virus spread and happiness, and visualizing the results.">
+           Analyse des données COVID-19 en Python avec Seaborn, fusion des données (cas confirmés par Johns Hopkins et facteurs de vie par pays), exploration de la corrélation entre propagation du virus et bonheur, et visualisation des résultats.
+        </p>
+        <div class="project-buttons">
+          <a class="more-btn" href="https://hoangviet1810.github.io/covid/" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="project-card reveal">
+      <img src="https://static.wixstatic.com/media/a91039_5b9b129b39e5456c8fd133fcc216cfff~mv2.png/v1/fill/w_782,h_404,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a91039_5b9b129b39e5456c8fd133fcc216cfff~mv2.png" alt="NLP: Analyse des sentiments sur Twitter">
+      <div class="project-info">
+        <h2 data-fr="NLP: Analyse des sentiments sur Twitter" data-en="NLP: Twitter Sentiment Analysis">NLP: Analyse des sentiments sur Twitter</h2>
+        <div class="project-tags"><span>NLP</span><span>Naive Bayes</span></div>
+        <p data-fr="Analyse exploratoire, création de nuages de mots, classification Naïve Bayes, évaluation avec matrices de confusion. Tokenisation, vectorisation et prédiction des sentiments des tweets afin d'analyser l'opinion des utilisateurs."
+           data-en="Exploratory analysis, word cloud creation, Naive Bayes classification, evaluation with confusion matrices. Tokenization, vectorization, and sentiment prediction of tweets to analyze user opinion.">
+           Analyse exploratoire, création de nuages de mots, classification Naïve Bayes, évaluation avec matrices de confusion. Tokenisation, vectorisation et prédiction des sentiments des tweets afin d'analyser l'opinion des utilisateurs.
+        </p>
+        <div class="project-buttons">
+          <a class="more-btn" href="https://www.kaggle.com/code/vitnguynchong/twitter-sentiment-analysis" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="project-card reveal">
+      <img src="https://static.wixstatic.com/media/a91039_e83ad250da344a3c883415a869a68021~mv2.png/v1/fill/w_592,h_456,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a91039_e83ad250da344a3c883415a869a68021~mv2.png" alt="Analyse de données avec SQL">
+      <div class="project-info">
+        <h2 data-fr="Analyse de données avec SQL: Informer une décision d'affaires" data-en="Data Analysis with SQL: Business Decision-Making">Analyse de données avec SQL: Informer une décision d'affaires</h2>
+        <div class="project-tags"><span>SQL</span></div>
+        <p data-fr="Exploration de la base de données Northwind avec SQL, identification des tables et champs, requêtes pour joindre les tables, calcul et agrégation des données, et affichage des résultats pour la prise de décision."
+           data-en="Exploring the Northwind database with SQL, identifying tables and fields, writing queries to join tables, calculating and aggregating data, and displaying results to support decision-making.">
+           Exploration de la base de données Northwind avec SQL, identification des tables et champs, requêtes pour joindre les tables, calcul et agrégation des données, et affichage des résultats pour la prise de décision.
+        </p>
+        <div class="project-buttons">
+          <a class="more-btn" href="https://www.coursera.org/account/accomplishments/verify/7BTLJZRT6V9R" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="project-card reveal">
+      <img src="https://static.wixstatic.com/media/a91039_26af118dfb7443139ca57f13909ff7ea~mv2.png/v1/fill/w_612,h_472,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/%E1%BA%A2nh%20m%C3%A0n%20h%C3%ACnh%202026-06-12%20l%C3%BAc%2021_34_10.png" alt="Analyse des avis clients avec Gemini">
+      <div class="project-info">
+        <h2 data-fr="Analyse des avis clients avec Gemini à l'aide de notebooks Python" data-en="Analyze Customer Reviews with Gemini Using Python Notebooks">Analyse des avis clients avec Gemini à l'aide de notebooks Python</h2>
+        <div class="project-tags"><span>Gemini</span><span>BigQuery</span><span>Colab</span></div>
+        <p data-fr="Analyse des avis clients avec Gemini en utilisant les services cloud de Google, notamment BigQuery, Colab Enterprise et Gemini : création de notebooks Python, analyse de sentiments (positif/négatif), génération de rapports statistiques et automatisation des réponses clients."
+           data-en="Analyzing customer reviews with Gemini using Google Cloud services, including BigQuery, Colab Enterprise, and Gemini: creating Python notebooks, sentiment analysis (positive/negative), generating statistical reports, and automating customer responses.">
+           Analyse des avis clients avec Gemini en utilisant les services cloud de Google, notamment BigQuery, Colab Enterprise et Gemini : création de notebooks Python, analyse de sentiments (positif/négatif), génération de rapports statistiques et automatisation des réponses clients.
+        </p>
+        <div class="project-buttons">
+          <a class="more-btn" href="https://coursera.org/share/90723eab45366512828ed8ce12c41f61" target="_blank" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== PAGE: CONTACT ===================== -->
+<div class="page" id="page-contact">
+  <main>
+    <div class="contact-info reveal">
+      <h1 class="page-title" data-fr="Contact" data-en="Contact">Contact</h1>
+      <h3 data-fr="Téléphone" data-en="Phone">Téléphone</h3>
+      <p>0784047437</p>
+      <h3 data-fr="Email" data-en="Email">Email</h3>
+      <p>ndhviet2003@gmail.com</p>
+      <div class="contact-social">
+        <a href="https://www.linkedin.com/in/hoang-viet1810/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+        <a href="https://github.com/Hoangviet1810" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub"></a>
+        <a href="https://www.kaggle.com/vitnguynchong" target="_blank"><img src="assets/kaggle.webp" alt="Kaggle"></a>
+      </div>
+    </div>
+
+    <form class="contact-form reveal" onsubmit="return sendContact(event)">
+      <div class="contact-row">
+        <div class="contact-field">
+          <label data-fr="Prénom *" data-en="First name *">Prénom *</label>
+          <input type="text" id="contact-firstname" required>
+        </div>
+        <div class="contact-field">
+          <label data-fr="Nom *" data-en="Last name *">Nom *</label>
+          <input type="text" id="contact-lastname" required>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-field">
+          <label data-fr="Email *" data-en="Email *">Email *</label>
+          <input type="email" id="contact-email" required>
+        </div>
+        <div class="contact-field">
+          <label data-fr="Sujet" data-en="Subject">Sujet</label>
+          <input type="text" id="contact-subject">
+        </div>
+      </div>
+      <div class="contact-field">
+        <label data-fr="Message" data-en="Message">Message</label>
+        <textarea id="contact-message" required></textarea>
+      </div>
+      <button type="submit" class="contact-submit" data-fr="Envoyer" data-en="Send">Envoyer</button>
+      <div class="contact-note" data-fr="Ouvre votre client mail par défaut." data-en="Opens your default mail client.">Ouvre votre client mail par défaut.</div>
+    </form>
+  </main>
+</div>
+
+<footer>
+  <div><strong data-fr="Téléphone" data-en="Phone">Téléphone</strong>0784047437</div>
+  <div><strong data-fr="Email" data-en="Email">Email</strong><a href="mailto:ndhviet2003@gmail.com">ndhviet2003@gmail.com</a></div>
+  <div>
+    <strong data-fr="Projets" data-en="Projects">Projets</strong>
+    <div class="icon-row">
+      <a href="https://github.com/Hoangviet1810" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub"></a>
+      <a href="https://www.kaggle.com/vitnguynchong" target="_blank"><img src="assets/kaggle.webp" alt="Kaggle"></a>
+    </div>
+  </div>
+  <div>
+    <strong data-fr="Me suivre" data-en="Follow Me">Me suivre</strong>
+    <div class="icon-row">
+      <a href="https://www.linkedin.com/in/hoang-viet1810/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+  <div class="copyright">© Nguyen Duc Hoang Viet</div>
+</footer>
+
+<script>
+function sendContact(e) {
+  e.preventDefault();
+  var first = document.getElementById('contact-firstname').value;
+  var last = document.getElementById('contact-lastname').value;
+  var email = document.getElementById('contact-email').value;
+  var subject = document.getElementById('contact-subject').value || 'Contact from portfolio';
+  var message = document.getElementById('contact-message').value;
+  var body = 'Name: ' + first + ' ' + last + '\nEmail: ' + email + '\n\n' + message;
+  window.location.href = 'mailto:ndhviet2003@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  return false;
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav a').forEach(function(a) { a.classList.remove('active'); });
+  document.querySelector('.nav-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+  revealPage(document.getElementById('page-' + name));
+}
+
+function revealPage(pageEl) {
+  var revealEls = pageEl.querySelectorAll('.reveal');
+  revealEls.forEach(function(el) { el.classList.remove('show'); });
+  void pageEl.offsetWidth;
+  revealEls.forEach(function(el, i) {
+    setTimeout(function () { el.classList.add('show'); }, i * 90);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  revealPage(document.getElementById('page-home'));
+  initNetwork();
+});
+
+// ===== Intro / loading screen =====
+(function () {
+  var bar = document.getElementById('loadingBar');
+  var pct = document.getElementById('loadingPct');
+  var progress = 0;
+  var interval = setInterval(function () {
+    progress += Math.random() * 16;
+    if (progress >= 100) { progress = 100; clearInterval(interval); }
+    bar.style.width = progress + '%';
+    pct.textContent = Math.floor(progress) + '%';
+  }, 90);
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.getElementById('loadingScreen').classList.add('fade-out');
+    }, 1900);
+  });
+})();
+
+function setLang(lang) {
+  document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+    var val = el.getAttribute('data-' + lang);
+    if (val.indexOf('<') !== -1) { el.innerHTML = val; } else { el.textContent = val; }
+  });
+  document.getElementById('langLabel').textContent = lang === 'fr' ? 'FR' : 'EN';
+  document.getElementById('langMenu').classList.remove('open');
+  document.documentElement.lang = lang;
+}
+document.addEventListener('click', function(e) {
+  if (!document.getElementById('langSelect').contains(e.target)) {
+    document.getElementById('langMenu').classList.remove('open');
+  }
+});
+
+// ===== Hero network canvas: nodes + links, subtle drift, mouse influence =====
+function initNetwork() {
+  var canvas = document.getElementById('networkCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var wrap = canvas.parentElement;
+  var w, h, nodes = [];
+  var mouse = { x: -9999, y: -9999 };
+  var NODE_COUNT = 42;
+  var LINK_DIST = 120;
+
+  function resize() {
+    w = canvas.width = wrap.clientWidth;
+    h = canvas.height = wrap.clientHeight;
+  }
+  function makeNodes() {
+    nodes = [];
+    for (var i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.6 + 1
+      });
+    }
+  }
+  function step() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+      var dx = mouse.x - n.x, dy = mouse.y - n.y;
+      var d2 = dx*dx + dy*dy;
+      if (d2 < 12000) { n.x -= dx * 0.004; n.y -= dy * 0.004; }
+    }
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var a = nodes[i], b = nodes[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < LINK_DIST) {
+          ctx.strokeStyle = 'rgba(79,216,176,' + (0.16 * (1 - dist / LINK_DIST)) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(79,216,176,0.75)';
+      ctx.fill();
+    }
+    requestAnimationFrame(step);
+  }
+  wrap.addEventListener('mousemove', function(e) {
+    var rect = wrap.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  wrap.addEventListener('mouseleave', function() { mouse.x = -9999; mouse.y = -9999; });
+  window.addEventListener('resize', function() { resize(); makeNodes(); });
+  resize(); makeNodes(); step();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Duc Hoang Viet NGUYEN — Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing:border-box; }
+  body { font-family: 'Work Sans', Arial, sans-serif; margin:0; background:#f2f2f2; color:#000; }
+  header { background:#eaf6ee; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; border-top:4px solid #2b6cff; }
+  header .brand { display:flex; align-items:center; gap:14px; cursor:pointer; }
+  header .brand svg { width:34px; height:34px; }
+  header .brand span { font-size:26px; font-weight:700; }
+  .header-right { display:flex; align-items:center; gap:36px; }
+  .lang-wrap { position:relative; }
+  .lang-select { display:flex; align-items:center; gap:6px; border:1px solid #333; border-radius:4px; padding:8px 14px; font-size:16px; background:transparent; cursor:pointer; user-select:none; }
+  .lang-menu { display:none; position:absolute; top:calc(100% + 4px); left:0; background:#fff; border:1px solid #ccc; border-radius:4px; min-width:100%; box-shadow:0 4px 10px rgba(0,0,0,.1); z-index:10; overflow:hidden; }
+  .lang-menu.open { display:block; }
+  .lang-menu div { padding:8px 14px; font-size:16px; cursor:pointer; white-space:nowrap; }
+  .lang-menu div:hover { background:#f0f0f0; }
+  nav ul { list-style:none; display:flex; gap:0; margin:0; padding:0; align-items:center; }
+  nav li { display:flex; align-items:center; }
+  nav li + li::before { content:"|"; color:#c7c7c7; margin:0 14px; }
+  nav a { text-decoration:none; color:#000; font-size:17px; cursor:pointer; }
+  nav a.active { color:#eea302; }
+  nav a:hover { color:#166aea; }
+
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* Home page */
+  #page-home main { max-width:1200px; margin:0 auto; padding:100px 40px; display:flex; align-items:center; justify-content:center; gap:80px; flex-wrap:wrap; }
+  #page-home main img { width:320px; height:320px; border-radius:50%; object-fit:cover; }
+  #page-home .intro h1 { font-size:72px; margin:0 0 24px; font-weight:800; }
+  #page-home .intro p { font-size:18px; line-height:1.7; color:#111; max-width:600px; }
+  #page-home .buttons { margin-top:32px; display:flex; gap:20px; }
+  #page-home .buttons a { width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; text-align:center; text-decoration:none; font-weight:700; font-size:19px; color:#000; border:1px solid rgba(0,0,0,.15); cursor:pointer; }
+  #page-home .buttons a:nth-child(1) { background:#eea302; }
+  #page-home .buttons a:nth-child(2) { background:#ff8a75; }
+  #page-home .buttons a:nth-child(3) { background:#80d8da; }
+
+  /* Resume page */
+  #page-resume main { max-width:1200px; margin:0 auto; padding:60px 60px 120px; }
+  #page-resume section { padding:44px 0; border-top:1px solid #d5d5d5; }
+  #page-resume section:first-child { border-top:none; }
+  #page-resume section h2 { font-size:36px; font-weight:800; margin:0 0 28px; }
+  .edu-item { display:flex; justify-content:space-between; margin-bottom:26px; gap:20px; }
+  .edu-item .left h3 { font-size:19px; font-weight:700; margin:0 0 4px; }
+  .edu-item .left p { margin:0; font-size:17px; color:#333; }
+  .edu-item .date { font-size:17px; color:#333; white-space:nowrap; padding-top:2px; }
+  ul.plain { margin:0; padding-left:20px; }
+  ul.plain li { margin-bottom:10px; font-size:17px; }
+  .comp-row { display:flex; gap:40px; margin-bottom:28px; }
+  .comp-label { width:110px; flex-shrink:0; font-size:18px; font-weight:700; padding-top:6px; }
+  .skills-grid { display:flex; flex-wrap:wrap; gap:44px 56px; }
+  .skill-item { text-align:center; width:80px; }
+  .skill-item img { width:64px; height:64px; object-fit:contain; }
+  .skill-item span { display:block; margin-top:8px; font-size:16px; }
+  .lang-list { margin:0; padding-left:20px; }
+  .lang-list li { margin-bottom:8px; font-size:17px; }
+  .cert-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
+  .cert-card img { width:100%; border-radius:6px; margin-bottom:8px; }
+  .cert-card a { font-size:15px; color:#000; text-decoration:underline; }
+  .top-row { display:flex; justify-content:space-between; align-items:center; padding:44px 60px 0; max-width:1200px; margin:0 auto; }
+  h1.name { font-size:38px; margin:0; font-weight:800; }
+  .cv-btn { display:inline-flex; align-items:center; gap:8px; background:#cefae8; border:2px solid #8a8a8a; border-radius:999px; padding:10px 22px; text-decoration:none; color:#000; font-weight:600; }
+  .cv-btn:hover { background:#b7f0da; }
+
+  footer { border-top:1px solid #c7c7c7; padding:36px 48px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px; font-size:16px; color:#333; }
+  footer div { min-width:160px; }
+  footer strong { display:block; margin-bottom:8px; font-size:19px; font-weight:700; color:#000; }
+  footer a { color:#333; text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+  .icon-row { display:flex; gap:12px; align-items:center; }
+  .icon-row img { width:26px; height:26px; }
+  .copyright { text-align:right; font-size:15px; color:#555; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand" onclick="showPage('home')">
+    <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="100" fill="#3be8b0"/></svg>
+    <span>Duc Hoang Viet NGUYEN</span>
+  </div>
+  <div class="header-right">
+    <div class="lang-wrap">
+      <div class="lang-select" id="langSelect" onclick="document.getElementById('langMenu').classList.toggle('open')">
+        <span id="langLabel">Français</span> ▾
+      </div>
+      <div class="lang-menu" id="langMenu">
+        <div onclick="setLang('fr')">Français</div>
+        <div onclick="setLang('en')">English</div>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a onclick="showPage('home')" class="nav-home active" data-fr="Home" data-en="Home">Home</a></li>
+        <li><a onclick="showPage('resume')" class="nav-resume" data-fr="Resume" data-en="Resume">Resume</a></li>
+        <li><a data-fr="Projets" data-en="Projects">Projets</a></li>
+        <li><a data-fr="Contact" data-en="Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== PAGE: HOME ===================== -->
+<div class="page active" id="page-home">
+  <main>
+    <img src="https://static.wixstatic.com/media/a91039_bba03c9865054b16b3c026eb16b15eb7~mv2.jpg/v1/crop/x_0,y_359,w_1277,h_1277/fill/w_588,h_584,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_8177_edited.jpg" alt="Photo profil">
+    <div class="intro">
+      <h1 data-fr="Bonjour" data-en="Hello">Bonjour</h1>
+      <p data-fr="Étudiant en Master 1 Ingénierie Statistique et Numérique – Data Sciences (Université de Lille), avec une expérience pratique à travers plusieurs projets en programmation, bases de données et analyse de données. Maîtrise de Python, R, SQL et C++. À la recherche d'un stage de 3-6 mois en analyse de données ou statistique appliquée dès que possible."
+         data-en="Master 1 student in Statistical Engineering and Data Science (Université de Lille), with hands-on experience through multiple projects in programming, databases, and data analysis. Proficient in Python, R, SQL and C++. Seeking a 3–4 month internship in data analysis or applied statistics as soon as possible.">
+         Étudiant en Master 1 Ingénierie Statistique et Numérique – Data Sciences (Université de Lille), avec une expérience pratique à travers plusieurs projets en programmation, bases de données et analyse de données. Maîtrise de Python, R, SQL et C++. À la recherche d'un stage de 3-6 mois en analyse de données ou statistique appliquée dès que possible.
+      </p>
+      <div class="buttons">
+        <a onclick="showPage('resume')" data-fr="Resume" data-en="Resume">Resume</a>
+        <a data-fr="Projets" data-en="Projects">Projets</a>
+        <a data-fr="Contact" data-en="Contact">Contact</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== PAGE: RESUME ===================== -->
+<div class="page" id="page-resume">
+  <div class="top-row">
+    <h1 class="name">Duc Hoang Viet NGUYEN</h1>
+    <a class="cv-btn" href="https://drive.google.com/file/d/178Rkv0KILJSsAo-5nyl-966lgTm2jSvg/view?usp=sharing" target="_blank" data-fr="Télécharger CV" data-en="Dowload CV">
+      Télécharger CV
+    </a>
+  </div>
+
+  <main>
+    <!-- Formations -->
+    <section>
+      <h2 data-fr="Formations" data-en="Education">Formations</h2>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="MASTER 2 Data Science: Santé, Assurance et Finance" data-en="Master 2 in Data Science: Health, Insurance and Finance">MASTER 2 Data Science: Santé, Assurance et Finance</h3>
+          <p>Université Paris-Saclay, France</p>
+        </div>
+        <div class="date">Sept 2026</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="MASTER 1 Ingénierie, statistiques et numérique - Data sciences" data-en="Master 1 in Engineering, Statistics, and Computing – Data Science">MASTER 1 Ingénierie, statistiques et numérique - Data sciences</h3>
+          <p data-fr="Université de Lille, France" data-en="University of Lille, France">Université de Lille, France</p>
+        </div>
+        <div class="date">Sept 2025 - Juin 2026</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="LICENCE MATHÉMATIQUES APPLIQUÉES" data-en="Bachelor's Degree in Applied Mathematics">LICENCE MATHÉMATIQUES APPLIQUÉES</h3>
+          <p data-fr="Université de Strasbourg, France" data-en="University of Strasbourg, France">Université de Strasbourg, France</p>
+        </div>
+        <div class="date" data-fr="Sept 2021 - Juin 2025" data-en="Sep 2021 – Jun 2025">Sept 2021 - Juin 2025</div>
+      </div>
+
+      <div class="edu-item">
+        <div class="left">
+          <h3 data-fr="Baccalauréat Viet Nam" data-en="High School Diploma Vietnam">Baccalauréat Viet Nam</h3>
+          <p data-fr="Lycée Hanoi - Amsterdam, Viet Nam" data-en="Hanoi – Amsterdam High School, Vietnam">Lycée Hanoi - Amsterdam, Viet Nam</p>
+        </div>
+        <div class="date" data-fr="Sept 2018 - Juin 2021" data-en="Sep 2018 – Jun 2021">Sept 2018 - Juin 2021</div>
+      </div>
+    </section>
+
+    <!-- Projets personnels -->
+    <section>
+      <h2 data-fr="Projets personnels" data-en="Personal projects">Projets personnels</h2>
+      <ul class="plain">
+        <li data-fr="Modèle hiérarchique bayésien pour l'écologie" data-en="Bayesian hierarchical model for ecology">Modèle hiérarchique bayésien pour l'écologie</li>
+        <li data-fr="Analyse numerique avec C++" data-en="Numerical Analysis with C++">Analyse numerique avec C++</li>
+        <li data-fr="Project DPE : Analyse factorielle" data-en="DPE Project: Factor Analysis">Project DPE : Analyse factorielle</li>
+        <li data-fr="COVID-19 Analyse de données en Python." data-en="COVID-19 Data Analysis with Python">COVID-19 Analyse de données en Python.</li>
+        <li data-fr="NLP: Analyse des sentiments sur Twitter." data-en="NLP: Twitter Sentiment Analysis">NLP: Analyse des sentiments sur Twitter.</li>
+        <li data-fr="Analyse de données avec SQL: Informer une décision d'affaires." data-en="Data Analysis with SQL: Business Decision-Making">Analyse de données avec SQL: Informer une décision d'affaires.</li>
+        <li data-fr="Analyse des avis clients avec Gemini à l'aide de notebooks Python." data-en="Analyze Customer Reviews with Gemini Using Python Notebooks">Analyse des avis clients avec Gemini à l'aide de notebooks Python.</li>
+      </ul>
+    </section>
+
+    <!-- Compétences -->
+    <section>
+      <h2 data-fr="Compétences" data-en="Skills">Compétences</h2>
+
+      <div class="comp-row">
+        <div class="comp-label" data-fr="Logiciels:" data-en="Tools:">Logiciels:</div>
+        <div class="skills-grid">
+          <div class="skill-item"><img src="assets/excel.png" alt="Excel"><span>Excel</span></div>
+          <div class="skill-item"><img src="assets/googlesheets.png" alt="Google Sheets"><span>Google Sheets</span></div>
+          <div class="skill-item"><img src="assets/sql.png" alt="SQL"><span>SQl</span></div>
+          <div class="skill-item"><img src="assets/r.png" alt="R"><span>R</span></div>
+          <div class="skill-item"><img src="assets/python.png" alt="Python"><span>Python</span></div>
+          <div class="skill-item"><img src="assets/cpp.png" alt="C++"><span>C++</span></div>
+          <div class="skill-item"><img src="https://cdn.simpleicons.org/numpy/013243" alt="Numpy"><span>Numpy</span></div>
+          <div class="skill-item"><img src="assets/matplotlib.png" alt="Matplotlib"><span>Mathplotlip</span></div>
+          <div class="skill-item"><img src="assets/pandas.png" alt="Pandas"><span>Pandas</span></div>
+          <div class="skill-item"><img src="assets/tableau.png" alt="Tableau"><span>tableau</span></div>
+        </div>
+      </div>
+
+      <div class="comp-row">
+        <div class="comp-label" data-fr="Langues:" data-en="Languages:">Langues:</div>
+        <ul class="lang-list">
+          <li data-fr="Anglais - Avancé (C1, IELTS 7.0)." data-en="English – Advanced (C1, IELTS 7.0)">Anglais - Avancé (C1, IELTS 7.0).</li>
+          <li data-fr="Français - Avancé (B2)." data-en="French – Advanced (B2)">Français - Avancé (B2).</li>
+          <li data-fr="Allemand (A2)." data-en="German (A2)">Allemand (A2).</li>
+          <li data-fr="Vietnamien - Langue maternelle." data-en="Vietnamese – Native language">Vietnamien - Langue maternelle.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section>
+      <h2 data-fr="Certifications" data-en="Certifications">Certifications</h2>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_34983a3742474fce9258da8f7f112612~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/specialization/TXLV6TXE26CW" target="_blank">Machine Learning Specialization | DeepLearning.AI & Stanford University</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_ae5c1e63c4334cdca6bb675755555173~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/specialization/AQZFWKN86L4O" target="_blank">Data-Driven Decision Making (DDDM) | University at Buffalo</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_8f79762245d54edea956f7b20d6c46da~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/professional-cert/CX4W58WT249V" target="_blank">Google Data Analytics Professional Certificate | Google Coursera</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_39ffc0662d4a4f669c45a65d40b35477~mv2.png" alt="">
+          <a href="https://www.coursera.org/account/accomplishments/verify/T20D36XSRCC4" target="_blank">Google AI Essentials | Google Coursera</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_5e98068010e142a0a1d602479eebe977~mv2.png" alt="">
+          <a href="https://www.hackerrank.com/certificates/a244787a5708" target="_blank">SQL Basic | Hackerrank</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_d7368667cf4242308ce0fb45d09b3b40~mv2.png" alt="">
+          <a href="https://www.hackerrank.com/certificates/10454c994144" target="_blank">Python Basic | Hackerrank</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_3076c67b54b44f2d813a848839f0d7b6~mv2.png" alt="">
+          <a href="https://codelearn.io/share/372bfde3-459c-4140-b6a2-4f352914d4f6" target="_blank">Programmation orientée objet en C++ | Code Learn</a>
+        </div>
+        <div class="cert-card">
+          <img src="https://static.wixstatic.com/media/a91039_c0575057d5c240f29f0343690593c642~mv2.jpg" alt="">
+          <a href="https://www.udemy.com/certificate/UC-007fcdfb-01f4-4119-8e39-618ad657e8ed/" target="_blank">Data Analyst : Certification professionnelle en analyse de données | Udemy</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div><strong data-fr="Phone" data-en="Phone">Phone</strong>0784047437</div>
+  <div><strong data-fr="Email" data-en="Email">Email</strong><a href="mailto:ndhviet2003@gmail.com">ndhviet2003@gmail.com</a></div>
+  <div>
+    <strong data-fr="Projects" data-en="Projects">Projects</strong>
+    <div class="icon-row">
+      <a href="https://github.com/Hoangviet1810" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub"></a>
+      <a href="https://www.kaggle.com/vitnguynchong" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968885.png" alt="Kaggle"></a>
+    </div>
+  </div>
+  <div>
+    <strong data-fr="Follow Me" data-en="Follow Me">Follow Me</strong>
+    <div class="icon-row">
+      <a href="https://www.linkedin.com/in/hoang-viet1810/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a>
+    </div>
+  </div>
+  <div class="copyright">© 2035 By Nicol Rider.<br>Powered and secured by <a href="#">Wix</a></div>
+</footer>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav a').forEach(function(a) { a.classList.remove('active'); });
+  document.querySelector('.nav-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function setLang(lang) {
+  document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  document.getElementById('langLabel').textContent = lang === 'fr' ? 'Français' : 'English';
+  document.getElementById('langMenu').classList.remove('open');
+  document.documentElement.lang = lang;
+}
+document.addEventListener('click', function(e) {
+  if (!document.getElementById('langSelect').contains(e.target)) {
+    document.getElementById('langMenu').classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
